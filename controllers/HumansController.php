@@ -82,6 +82,11 @@ class HumansController extends Controller
         }
     }
 
+    public function actionGenealogy($id)
+    {
+        //TODO: implement ltree search and render genealogy tree
+    }
+
     /**
      * Finds the Human model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
