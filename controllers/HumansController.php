@@ -51,7 +51,6 @@ class HumansController extends Controller
     public function actionCreate($idFamily = null)
     {
         $model = new Human();
-//        var_dump(Yii::$app->request->post());die();
         $model->id_ancestry_family = $idFamily;
 
         if ( $model->load(Yii::$app->request->post()) && $model->save() ) {
@@ -82,9 +81,19 @@ class HumansController extends Controller
         }
     }
 
+    /**
+     * Генеалогическое древо
+     * @param $id
+     * @return string
+     * @throws NotFoundHttpException
+     */
     public function actionGenealogy($id)
     {
-        //TODO: implement ltree search and render genealogy tree
+        $model = $this->findModel($id);
+
+        return $this->render('genealogy', [
+            'model' => $model
+        ]);
     }
 
     /**

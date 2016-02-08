@@ -20,6 +20,8 @@ use yii\base\Exception;
  */
 class Human extends \yii\db\ActiveRecord
 {
+    public $generation;
+
     /**
      * @inheritdoc
      */
@@ -74,7 +76,6 @@ class Human extends \yii\db\ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
         if ( $insert ) {//save genealogy
-//            var_dump($this->getAttributes());die();
             $family = $this->getAncestryFamily()->with('spouses')->one();
             $ancestry = '';
             if ( $family ) {
@@ -102,6 +103,25 @@ class Human extends \yii\db\ActiveRecord
     public function getDescendantFamily()
     {
         return $this->hasOne(Family::className(), ['id' => 'id_descendant_family']);
+    }
+
+    /**
+     * Поиск всех предков человека, реализован немного криво
+     * с помощью ltree
+     * @return \app\models\Human[]
+     */
+    public function getGenealogy()
+    {
+        $nestedQuery = static::find()->select('ancestry as anc')
+            ->where(['id' => $this->id])->createCommand()->sql;
+        return static::find()->select('*, nlevel(ancestry) AS generation')
+            ->from(static::tableName() .', ('. $nestedQuery .') AS man')
+            ->where('(id::text||\'.*\')::lquery ~ man.anc')
+            ->orWhere('(\'*.\'||id||\'.*\')::lquery ~ man.anc')
+            ->andWhere(['!=', 'id', $this->id])->orderBy([
+                'generation' => SORT_ASC,
+                'id_descendant_family' => SORT_ASC
+            ])->all();
     }
 
     /**

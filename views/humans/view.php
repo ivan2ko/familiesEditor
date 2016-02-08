@@ -19,6 +19,7 @@ $hisFamily = $model->descendantFamily;
 
     <p>
         <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Генеалогическое древо', ['genealogy', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 
     </p>
 

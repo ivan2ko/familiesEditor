@@ -89,3 +89,13 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+.genealogy-family-block {
+    text-align: center;
+    padding: 5px;
+    margin: 10px;
+    border: 1px solid rgba(180,180,180,0.2);
+    border-radius: 5px;
+}
+.genealogy-person {
+    background-color: rgba(30,30, 120, 0.2);
+}

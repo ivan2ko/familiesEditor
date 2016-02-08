@@ -34,9 +34,7 @@ class HumanSearch extends Human
 
     /**
      * Creates data provider instance with search query applied
-     *
      * @param array $params
-     *
      * @return ActiveDataProvider
      */
     public function search($params)
